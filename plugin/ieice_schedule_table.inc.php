@@ -4,7 +4,7 @@
 // IEICE schedule table plugin
 //
 // Usage:
-//	#ieice_schedule_table({[title], [tgid], [from], [to]})
+//	#ieice_schedule_table({[title], [tgid], [from], [to], [lang]})
 //  tgid: e.g. IEICE-IA
 //	from: yyyy-mm-dd
 //	to: yyyy-mm-dd
@@ -17,11 +17,12 @@ function plugin_ieice_schedule_table_convert()
     $tgid = $args[1];
     $from = $args[2];
     $to = $args[3];
+    $lang = $args[4];
 	}
 
   //$from = "2010-04-01"; $to = "2011-03-31";
   //$tgid = "IEICE-IA";
-  //$content = file_get_contents("http://www.ieice.org/ken/program/?cmd=serialized_schedule&tgid=$tgid&from=$from&to=$to");
+  //$content = file_get_contents("http://www.ieice.org/ken/program/?cmd=serialized_schedule&tgid=$tgid&from=$from&to=$to&lang=$lang");
   // read content from file
   $content = file_get_contents(DATA_HOME . 'test.data');
   $schedule_vars_list = unserialize($content);
@@ -41,7 +42,7 @@ function plugin_ieice_schedule_table_convert()
     $ret .= '    <td class="ieice_schedule_left">' .
       '<a href="http://www.ieice.org/ken/program/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '">' .
       '<span class="ieice_schedule_event">'.
-      '■第' . ($key + 1) . '回研究会' .
+      ($key + 1) . 'th Meeting' .
       '</span>' .
       '</a>' .
       '</td>' . "\n";
@@ -56,13 +57,13 @@ function plugin_ieice_schedule_table_convert()
     } elseif ($schedule_vars['tgs_prg_openflag'] == '1') { // program is already opened
       $ret .= '    <td class="ieice_schedule_right">' .
         '<span class="ieice_schedule_status">' .
-        '・・・プログラム公開中' .
+        '...Program is published' .
         '</span>' .
         '</td>' . "\n";
     } elseif (strpos($schedule_vars['tgs_rdl_type'], 'MANUAL') !== false || strpos($schedule_vars['tgs_rdl_type'], 'AUTO') !== false) { // paper submission page is already opened
       $ret .= '    <td class="ieice_schedule_right">' .
         '<span class="ieice_schedule_status">' .
-        '・・・発表申込受付中' .
+        '...Call for submission' .
         '</span>' .
         '</td>' . "\n";
     } else {
@@ -93,19 +94,19 @@ function plugin_ieice_schedule_table_convert()
   }
   $ret .= '  <tr>' . "\n" .
     '    <td class="ieice_schedule" colspan=2>' .
-    '※変更されることもございますので随時ご確認下さい。 また、各研究会の<strong>発表申込〆切日</strong>・<strong>論文提出〆切日</strong>など詳細につきましてはこちらをご確認下さい。' .
+    '' .
     '</td>' . "\n" .
     '  </tr>' . "\n" .
     '  <tr>' . "\n" .
     '    <td class="ieice_schedule_align_right" colspan=2>' .
-    '<a href="http://www.ieice.org/ken/program/index.php?tgid=IEICE-IA&layout=&lang=" class="ieice_schedule">' .
-    '．．．研究会開催スケジュール>>>' .
+    '<a href="http://www.ieice.org/ken/program/index.php?tgid=IEICE-IA&layout=&lang=' . $lang . '" class="ieice_schedule">' .
+    '...Meeting Schedule&gt;&gt;&gt;' .
     '</a>' .
     '</td>' . "\n" .
     '  </tr>' . "\n" .
     '  <tr class="ieice_schedule">' . "\n" .
     '    <td class="ieice_schedule" colspan=2>' .
-    '開催日に関わらず、各研究会への発表申込を常時受け付けております。各回ごとに発表申込システムへリンクしています。なお、発表原稿のwebアップロードの〆切は研究会の概ね3週間前ですが、具体的な期日は発表申込み後にwebシステムから著者に連絡されるメールに従ってください。' .
+    '' .
     '</td>' . "\n" .
     '  </tr>' . "\n" .
     '  </tbody>' . "\n" .

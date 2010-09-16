@@ -29,16 +29,16 @@ function plugin_cfp_table_entry_convert()
       '    <td class="cfp">' .
       $journal . ':<br/>' .
       $theme . '<br/>' .
-      '論文〆切: ' . $deadline .
+      'Deadline: ' . $deadline .
       '<span class="cfp_status">' .
-      '・・・' . $status .
+      '...' . $status .
       '</span>' .
       '</td>' . "\n" .
       '  </tr>' . "\n" .
       '  <tr>' . "\n" .
       '    <td class="cfp_align_right">' .
       '<a href="' . $url . '" class="cfp">' .
-      '．．．投稿要項>>>' .
+      '...Submission procedure&gt;&gt;&gt;' .
       '</a>' .
       '</td>' . "\n" .
       '  </tr>' . "\n";

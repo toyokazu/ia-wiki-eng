@@ -23,7 +23,7 @@ function plugin_link_table_entry_convert()
   $ret .= '  <tr>' . "\n" .
     '    <td class="link">' .
     '<a href="' . $url . '" class="link">' .
-    '¡¦' . $description .
+    '- ' . $description .
     '</a>';
   if ($comment != "") {
     $ret .= '</td>' . "\n" .
