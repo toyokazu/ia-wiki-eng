@@ -22,7 +22,7 @@ function plugin_ieice_schedule_table_convert()
 
   //$from = "2010-04-01"; $to = "2011-03-31";
   //$tgid = "IEICE-IA";
-  //$content = file_get_contents("http://www.ieice.org/ken/program/?cmd=serialized_schedule&tgid=$tgid&from=$from&to=$to&lang=$lang");
+  //$content = file_get_contents("http://www.ieice.org/ken/program/?cmd=serialized_schedule&tgid=$tgid&from=$from&to=$to");
   // read content from file
   $content = file_get_contents(DATA_HOME . 'test.data');
   $schedule_vars_list = unserialize($content);
@@ -38,11 +38,19 @@ function plugin_ieice_schedule_table_convert()
   date_default_timezone_set('Asia/Tokyo');
   $now = new DateTime("now");
   foreach ($schedule_vars_list as $key => $schedule_vars) {
+    $number = ($key + 1) . 'th';
+    if (($key + 1) == 1) {
+      $number = '1st';
+    } elseif (($key + 1) == 2) {
+      $number = '2nd';
+    } elseif (($key + 1) == 3) {
+      $number = '3rd';
+    }
     $ret .= '  <tr>' . "\n";
     $ret .= '    <td class="ieice_schedule_left">' .
       '<a href="http://www.ieice.org/ken/program/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '">' .
       '<span class="ieice_schedule_event">'.
-      ($key + 1) . 'th Meeting' .
+      $number . ' Meeting' .
       '</span>' .
       '</a>' .
       '</td>' . "\n";
@@ -77,16 +85,16 @@ function plugin_ieice_schedule_table_convert()
     $ret .= '    <td class="ieice_schedule_left">';
     if ($invert_now->invert == 1 && $invert_now->days > 7) { // program is finished more than a week ago
         $ret .= '<strike>' .
-        $start_date->format('n/j') . '¡Á' . $end_date->format('n/j') .
+        $start_date->format('n/j') . '-' . $end_date->format('n/j') .
         '</strike>';
     } else {
-        $ret .= $start_date->format('n/j') . '¡Á' . $end_date->format('n/j');
+        $ret .= $start_date->format('n/j') . '-' . $end_date->format('n/j');
     }
     $ret .= '</td>' . "\n" .
       '    <td class="ieice_schedule_right">' .
-      '<a href="' . $schedule_vars['tgs_urlj'] . '" class="ieice_schedule">' .
+      '<a href="' . $schedule_vars['tgs_urle'] . '" class="ieice_schedule">' .
       '<span>' .
-      mb_convert_encoding($schedule_vars['tgs_placej'], 'EUC-JP', 'SJIS') .
+      $schedule_vars['tgs_placee'] .
       '</span>' .
       '</a>' .
       '</td>' . "\n" .
