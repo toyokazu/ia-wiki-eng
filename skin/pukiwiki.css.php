@@ -52,7 +52,8 @@ a:link {
 <?php	if ($media == 'print') { ?>
 	text-decoration: underline;
 <?php	} else { ?>
-	color:#215dc6;
+	color:#006666;
+	//color:#215dc6;
 	background-color:inherit;
 	text-decoration:none;
 <?php	} ?>
@@ -90,10 +91,14 @@ h1, h2 {
 }
 h3 {
 	font-family:verdana, arial, helvetica, Sans-Serif;
-	border-bottom:  3px solid #DDEEFF;
-	border-top:     1px solid #DDEEFF;
-	border-left:   10px solid #DDEEFF;
-	border-right:   5px solid #DDEEFF;
+	border-bottom:  3px solid rgb(51, 102, 255);
+	//border-bottom:  3px solid #DDEEFF;
+	//border-top:     1px solid rgb(51, 102, 255);
+	//border-top:     1px solid #DDEEFF;
+	border-left:   10px solid rgb(51, 102, 255);
+	//border-left:   10px solid #DDEEFF;
+	//border-right:   5px solid rgb(51, 102, 255);
+	//border-right:   5px solid #DDEEFF;
 
 	color:inherit;
 	background-color:#FFFFFF;
@@ -102,9 +107,11 @@ h3 {
 }
 h4 {
 	font-family:verdana, arial, helvetica, Sans-Serif;
-	border-left:   18px solid #DDEEFF;
+	//border-left:   18px solid #DDEEFF;
+	border-bottom:  1px solid rgb(51, 102, 255);
 
-	color:inherit;
+	color:rgb(51, 102, 255);
+	//color:inherit;
 	background-color:#FFFFFF;
 	padding:.3em;
 	margin:0px 0px .5em 0px;
@@ -163,9 +170,13 @@ strong { font-weight:bold; }
 
 thead td.style_td,
 tfoot td.style_td {
-	color:inherit;
-	background-color:#D0D8E0;
+	color:#FFFFFF;
+	background-color:#808080;
+  //color: rgb(51, 102, 255);
+	//border-top:  2px solid rgb(51, 102, 255);
+	//border-bottom:  2px solid rgb(51, 102, 255);
 }
+
 thead th.style_th,
 tfoot th.style_th {
 	color:inherit;
@@ -177,7 +188,8 @@ tfoot th.style_th {
 	margin:auto;
 	text-align:left;
 	color:inherit;
-	background-color:#ccd5dd;
+	//background-color:#ccd5dd;
+  border-collapse:collapse;
 }
 .style_th {
 	padding:5px;
@@ -190,7 +202,10 @@ tfoot th.style_th {
 	padding:5px;
 	margin:1px;
 	color:inherit;
-	background-color:#EEF5FF;
+	background-color:#FFFFFF;
+	//background-color:#EEF5FF;
+	//border-bottom:  1px solid rgb(51, 102, 255);
+	border-bottom:  1px solid black;
 }
 
 ul.list1 { list-style-type:disc; }
@@ -813,6 +828,10 @@ td.cfp_align_right {
   border-bottom: 1px solid rgb(51, 102, 255);
 }
 
+td.cfp_align_right > a {
+  color:#006666;
+}
+
 span.cfp_status {
   color:#FF3399;
   font-weight:bold;
@@ -837,23 +856,23 @@ table#ieice_schedule {
   float:left;
 }
 
-thead.ieice_schedule {
+table#ieice_schedule thead {
   color:white;
   background-color:rgb(51, 102, 255);
 }
 
-thead.ieice_schedule > tr > th {
+table#ieice_schedule thead > tr > th {
   text-align:left;
   font-weight:normal;
+}
+
+table#ieice_schedule tbody {
+  background-color:rgb(232, 239, 255);
 }
 
 tr.ieice_schedule {
   border-bottom: 1px solid gray;
   //border-bottom: 1px solid rgb(51, 102, 255);
-}
-
-tbody.ieice_schedule {
-  background-color:rgb(232, 239, 255);
 }
 
 td.ieice_schedule {
@@ -914,4 +933,63 @@ div.full_text a {
 div.full_text p.full_footer {
   text-align:center;
   color:gray;
+}
+
+/* ieice_submission_guideline.inc.php */
+table#submission_guideline {
+  width: 100%;
+  border-collapse: collapse;
+  border: 0px;
+}
+
+table#submission_guideline td.blue_box {
+  width: 87px;
+  text-align:center;
+  color: rgb(51, 102, 255);
+  background-color: #E8EFFF;
+  //font-size: 110%;
+  font-weight: bold;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top-width: 1px;
+}
+
+table#submission_guideline td.white_box {
+  width: 87px;
+  height: 29px;
+  text-align:center;
+  color: #333333;
+  border: 2px solid #E8EFFF;
+  //background-color: #E8EFFF;
+  //font-size: 110%;
+  font-weight: bold;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top-width: 1px;
+}
+
+table#submission_guideline td.center_box {
+  width: 87px;
+  text-align:center;
+  //font-size: 110%;
+  font-weight: bold;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top-width: 1px;
+}
+
+table#submission_guideline td.left_box {
+  text-align:left;
+}
+
+table#submission_guideline td.right_box {
+  text-align:right;
+}
+
+table#submission_guideline td.space_box {
+  width: 45px;
+}
+
+table#submission_guideline span {
+  color: #FF3399;
 }
