@@ -9,6 +9,26 @@
 //	from: yyyy-mm-dd
 //	to: yyyy-mm-dd
 
+function get_workshop_title(){
+  $ret = "";
+  if (func_num_args()) {
+    $args = func_get_args();
+    $schedule_vars = $args[0];
+    $number = $args[1];
+    $type = $args[2];
+  }
+    $ret .= '  <tr>' . "\n";
+    $ret .= '    <td class="ieice_schedule_left">' .
+      '<a href="http://www.ieice.org/ken/' . $type . '/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '">' .
+      '<span class="ieice_schedule_event">'.
+      $number . ' Meeting' .
+      '</span>' .
+      '</a>' .
+      '</td>' . "\n";
+  return $ret;
+}
+
+
 function plugin_ieice_schedule_table_convert()
 {
 	if (func_num_args()) {
@@ -46,35 +66,31 @@ function plugin_ieice_schedule_table_convert()
     } elseif (($key + 1) == 3) {
       $number = '3rd';
     }
-    $ret .= '  <tr>' . "\n";
-    $ret .= '    <td class="ieice_schedule_left">' .
-      '<a href="http://www.ieice.org/ken/program/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '">' .
-      '<span class="ieice_schedule_event">'.
-      $number . ' Meeting' .
-      '</span>' .
-      '</a>' .
-      '</td>' . "\n";
     $start_date = new DateTime($schedule_vars['tgs_yy'] . '-' . $schedule_vars['tgs_mm'] . '-' . $schedule_vars['tgs_dd']);
     $end_date = clone $start_date;
     $end_date->add(new DateInterval('P' . ($schedule_vars['tgs_ndays'] - 1) . 'D'));
     $interval_now = $now->diff($end_date);
     // show workshop status
     if ($interval_now->invert == 1 && $interval_now->days > 7) { // program is finished more than a week ago
+      $ret .= get_workshop_title($schedule_vars, $number, 'program');
       $ret .= '    <td class="ieice_schedule_right">' .
         '</td>' . "\n";
     } elseif ($schedule_vars['tgs_prg_openflag'] == '1') { // program is already opened
+      $ret .= get_workshop_title($schedule_vars, $number, 'program');
       $ret .= '    <td class="ieice_schedule_right">' .
         '<span class="ieice_schedule_status">' .
         '...Program is published' .
         '</span>' .
         '</td>' . "\n";
     } elseif (strpos($schedule_vars['tgs_rdl_type'], 'MANUAL') !== false || strpos($schedule_vars['tgs_rdl_type'], 'AUTO') !== false) { // paper submission page is already opened
+      $ret .= get_workshop_title($schedule_vars, $number, 'form');
       $ret .= '    <td class="ieice_schedule_right">' .
         '<span class="ieice_schedule_status">' .
         '...Call for submission' .
         '</span>' .
         '</td>' . "\n";
     } else {
+      $ret .= get_workshop_title($schedule_vars, $number, 'form');
       $ret .= '    <td class="ieice_schedule_right">' .
         '</td>' . "\n";
     }
