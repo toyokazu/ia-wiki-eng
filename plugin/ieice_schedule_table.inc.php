@@ -42,9 +42,9 @@ function plugin_ieice_schedule_table_convert()
 
   //$from = "2010-04-01"; $to = "2011-03-31";
   //$tgid = "IEICE-IA";
-  //$content = file_get_contents("http://www.ieice.org/ken/program/?cmd=serialized_schedule&tgid=$tgid&from=$from&to=$to");
+  $content = file_get_contents("http://www.ieice.org/ken/program/?cmd=serialized_schedule&tgid=$tgid&from=$from&to=$to");
   // read content from file
-  $content = file_get_contents(DATA_HOME . 'test.data');
+  //$content = file_get_contents(DATA_HOME . 'test.data');
   $schedule_vars_list = unserialize($content);
 
   $ret = "\n" .
@@ -66,9 +66,15 @@ function plugin_ieice_schedule_table_convert()
     } elseif (($key + 1) == 3) {
       $number = '3rd';
     }
-    $start_date = new DateTime($schedule_vars['tgs_yy'] . '-' . $schedule_vars['tgs_mm'] . '-' . $schedule_vars['tgs_dd']);
+    if (!empty($schedule_vars['tgs_dd'])) {
+      $start_date = new DateTime($schedule_vars['tgs_yy'] . '-' . $schedule_vars['tgs_mm'] . '-' . $schedule_vars['tgs_dd']);
+    } else {
+      $start_date = new DateTime($schedule_vars['tgs_yy'] . '-' . $schedule_vars['tgs_mm'] . '-01');
+    }
     $end_date = clone $start_date;
-    $end_date->add(new DateInterval('P' . ($schedule_vars['tgs_ndays'] - 1) . 'D'));
+    if (!empty($schedule_vars['tgs_ndays'])) {
+      $end_date->add(new DateInterval('P' . ($schedule_vars['tgs_ndays'] - 1) . 'D'));
+    }
     $interval_now = $now->diff($end_date);
     // show workshop status
     if ($interval_now->invert == 1 && $interval_now->days > 7) { // program is finished more than a week ago
@@ -99,7 +105,9 @@ function plugin_ieice_schedule_table_convert()
     // show workshop dates
     $ret .= '  <tr class="ieice_schedule">' . "\n";
     $ret .= '    <td class="ieice_schedule_left">';
-    if ($interval_now->invert == 1 && $interval_now->days > 7) { // program is finished more than a week ago
+    if (empty($schedule_vars['tgs_dd']) || empty($schedule_vars['tgs_ndays'])) {
+      $ret .= 'Under consideration (' . $start_date->format('M') . '.)';
+    } elseif ($interval_now->invert == 1 && $interval_now->days > 7) { // program is finished more than a week ago
         $ret .= '<strike>' .
         $start_date->format('n/j') . '-' . $end_date->format('n/j') .
         '</strike>';
