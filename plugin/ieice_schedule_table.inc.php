@@ -17,14 +17,21 @@ function get_workshop_title(){
     $number = $args[1];
     $type = $args[2];
   }
-    $ret .= '  <tr>' . "\n";
-    $ret .= '    <td class="ieice_schedule_left">' .
-      '<a href="http://www.ieice.org/ken/' . $type . '/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '">' .
-      '<span class="ieice_schedule_event">'.
-      $number . ' Meeting' .
-      '</span>' .
-      '</a>' .
-      '</td>' . "\n";
+  $urle = '';
+  if (strpos($schedule_vars['tgs_frm1_type_db'], 'STD') === 0) {
+    $urle = 'http://www.ieice.org/ken/' . $type . '/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '&lang=eng';
+  } else {
+    $urle = $schedule_vars['tgs_o_frm1_urle'];
+  }
+  $ret .= '  <tr>' . "\n";
+  $ret .= '    <td class="ieice_schedule_left">' .
+    '<a href="' . $urle . '">' .
+
+    '<span class="ieice_schedule_event">'.
+    $number . ' Meeting' .
+    '</span>' .
+    '</a>' .
+    '</td>' . "\n";
   return $ret;
 }
 
