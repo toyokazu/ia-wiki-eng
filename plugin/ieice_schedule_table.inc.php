@@ -18,7 +18,7 @@ function get_workshop_title(){
     $type = $args[2];
   }
   $urle = '';
-  if (strpos($schedule_vars['tgs_frm1_type_db'], 'STD') === 0) {
+  if (strpos($schedule_vars['tgs_frm1_type'], 'STD') === 0) {
     $urle = 'http://www.ieice.org/ken/' . $type . '/index.php?tgs_regid=' . $schedule_vars['tgs_regid'] . '&lang=eng';
   } else {
     $urle = $schedule_vars['tgs_o_frm1_urle'];
